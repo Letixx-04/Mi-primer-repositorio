@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Carrusel con Controles</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #111;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .carousel-container {
+      width: 90%;
+      max-width: 900px;
+      aspect-ratio: 16 / 9; 
+      overflow: hidden;
+      position: relative;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      background-color: #000;
+    }
+
+    .carousel-slides {
+      display: flex;
+      transition: transform 1s ease;
+    }
+
+    .carousel-slide {
+      flex: 0 0 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #000;
+    }
+
+    
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; 
+      image-rendering: auto;
+    }
+
+    
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(255, 255, 255, 0.4);
+      color: #000;
+      border: none;
+      font-size: 2rem;
+      padding: 0.3em 0.6em;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      user-select: none;
+    }
+
+    .carousel-btn:hover {
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .prev-btn {
+      left: 10px;
+    }
+
+    .next-btn {
+      right: 10px;
+    }
+
+    
+    .indicators {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin: 5px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background-color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="carousel-container">
+    <div class="carousel-slides" id="slides">
+      <div class="carousel-slide">
+        <img src="https://cdn.milenio.com/uploads/media/2022/09/22/director-upiicsa-nombrado-paros-ipn.jpg" alt="UPIICSA Imagen 1">
+      </div>
+      <div class="carousel-slide">
+        <img src="https://upiicsa.ipn.mx/assets/files/upiicsa/img/inicio/ns-upiicsa1.jpg" alt="UPIICSA Imagen 2">
+      </div>
+      <div class="carousel-slide">
+        <img src="https://i.pinimg.com/736x/99/28/d3/9928d3a1601c539227a0a95928b2a661.jpg" alt="UPIICSA Imagen 3">
+      </div>
+    </div>
+
+    <button class="carousel-btn prev-btn" id="prev">❮</button>
+    <button class="carousel-btn next-btn" id="next">❯</button>
+
+    <div class="indicators">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+  </div>
+
+  <script>
+    const slides = document.getElementById('slides');
+    const dots = document.querySelectorAll('.dot');
+    const totalSlides = document.querySelectorAll('.carousel-slide').length;
+    let index = 0;
+
+    function showSlide(i) {
+      index = (i + totalSlides) % totalSlides;
+      slides.style.transform = `translateX(${-index * 100}%)`;
+      dots.forEach(dot => dot.classList.remove('active'));
+      dots[index].classList.add('active');
+    }
+
+    document.getElementById('prev').addEventListener('click', () => showSlide(index - 1));
+    document.getElementById('next').addEventListener('click', () => showSlide(index + 1));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => showSlide(i)));
+
+    
+    setInterval(() => showSlide(index + 1), 10000);
+  </script>
+
+</body>
+</html>
